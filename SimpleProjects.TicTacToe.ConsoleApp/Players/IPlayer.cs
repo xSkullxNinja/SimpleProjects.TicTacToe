@@ -1,4 +1,4 @@
-﻿namespace SimpleProjects.TicTacToe.ConsoleApp
+﻿namespace SimpleProjects.TicTacToe.ConsoleApp.Players
 {
     public interface IPlayer
     {
