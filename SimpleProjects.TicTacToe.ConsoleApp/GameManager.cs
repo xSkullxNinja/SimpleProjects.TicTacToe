@@ -1,4 +1,6 @@
-﻿namespace SimpleProjects.TicTacToe.ConsoleApp
+﻿using SimpleProjects.TicTacToe.ConsoleApp.Players;
+
+namespace SimpleProjects.TicTacToe.ConsoleApp
 {
     public class GameManager
     {
