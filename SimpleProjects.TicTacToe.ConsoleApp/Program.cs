@@ -10,7 +10,7 @@ namespace SimpleProjects.TicTacToe.ConsoleApp
 
             var manager = container.GetInstance<GameManager>();
 
-            manager.Play();
+            manager.MainMenu();
         }
     }
 }

@@ -4,8 +4,8 @@
     {
         private readonly Board _gameBoard;
 
-        private readonly IPlayer _player1;
-        private readonly IPlayer _player2;
+        private IPlayer _player1;
+        private IPlayer _player2;
         private IPlayer _currentPlayer;
         private bool _currentPlayerPlayer1;
 
@@ -15,6 +15,22 @@
         }
 
         // I don't like this for some reason.
+        public void MainMenu()
+        {
+            _gameBoard.StartNewGame();
+            Play();
+        }
+
+        public void SelectPlayerOne()
+        {
+
+        }
+
+        public void SelectPlayerTwo()
+        {
+
+        }
+
         public void Play()
         {
             while (!_gameBoard.HasWinner() && !_gameBoard.IsFull())
