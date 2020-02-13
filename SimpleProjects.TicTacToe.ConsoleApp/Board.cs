@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SimpleProjects.TicTacToe.ConsoleApp
@@ -24,6 +25,30 @@ namespace SimpleProjects.TicTacToe.ConsoleApp
             {
                 cell.Mark = BoardMark.Empty;
             }
+        }
+
+        public void PrintBoard()
+        {
+            for (var i = 1; i <= 3; i++)
+            {
+                for (var j = 1; j <= 3; j++)
+                {
+                    var mark = _gameBoard.Single(x => x.Position.Row == i && x.Position.Column == j).Mark;
+                    var output = mark == BoardMark.Empty ? " " : mark.ToString();
+                    if (j == 3)
+                    {
+                        Console.WriteLine($"{output}");
+                        break;
+                    }
+                    Console.Write($"{output}");
+                    Console.Write("|");
+                }
+                if (i != 3)
+                {
+                    Console.WriteLine("-+-+-");
+                }
+            }
+            Console.WriteLine("");
         }
 
         private void GenerateGameBoard()

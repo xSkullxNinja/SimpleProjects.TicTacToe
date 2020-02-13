@@ -3,6 +3,6 @@
     public interface IPlayer
     {
         BoardMark GamePiece { get; set; }
-        BoardPosition DetermineMove();
+        BoardPosition DetermineMove(IPlayerBoard gameBoard);
     }
 }

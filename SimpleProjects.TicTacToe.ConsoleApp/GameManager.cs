@@ -20,17 +20,26 @@ namespace SimpleProjects.TicTacToe.ConsoleApp
         public void MainMenu()
         {
             _gameBoard.StartNewGame();
+
+            SelectPlayerOne();
+            SelectPlayerTwo();
+
             Play();
         }
 
         public void SelectPlayerOne()
         {
-
+            _player1 = PlayerSelector(BoardMark.X);
         }
 
         public void SelectPlayerTwo()
         {
+            _player2 = PlayerSelector(BoardMark.O);
+        }
 
+        private IPlayer PlayerSelector(BoardMark playerMark)
+        {
+            return new RandomPlayer(playerMark);
         }
 
         public void Play()
@@ -46,11 +55,13 @@ namespace SimpleProjects.TicTacToe.ConsoleApp
                     _currentPlayer = _player2;
                 }
 
-                var move = _currentPlayer.DetermineMove();
+                var move = _currentPlayer.DetermineMove(_gameBoard);
 
                 _gameBoard.MarkMove(_currentPlayer.GamePiece, move);
 
                 _currentPlayerPlayer1 = !_currentPlayerPlayer1;
+
+                _gameBoard.PrintBoard();
             }
         }
     }
