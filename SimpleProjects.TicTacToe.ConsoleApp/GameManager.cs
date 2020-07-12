@@ -1,68 +1,62 @@
-﻿using SimpleProjects.TicTacToe.ConsoleApp.Players;
+﻿using System;
+
+using SimpleProjects.TicTacToe.ConsoleApp.TicTacToeGame;
 
 namespace SimpleProjects.TicTacToe.ConsoleApp
 {
     public class GameManager
     {
-        private readonly Board _gameBoard;
+        private readonly IGameBoard _board;
 
-        private IPlayer _player1;
-        private IPlayer _player2;
-        private IPlayer _currentPlayer;
-        private bool _currentPlayerPlayer1;
-
-        public GameManager(Board gameBoard)
+        public GameManager(IGameBoard board)
         {
-            _gameBoard = gameBoard;
+            _board = board;
         }
 
-        // I don't like this for some reason.
-        public void MainMenu()
+        public void Init()
         {
-            _gameBoard.StartNewGame();
-
-            SelectPlayerOne();
-            SelectPlayerTwo();
-
-            Play();
+            _board.SetupBoard();
+            _board.SetupConstraints();
         }
 
-        public void SelectPlayerOne()
+        public void Start()
         {
-            _player1 = PlayerSelector(BoardMark.X);
-        }
-
-        public void SelectPlayerTwo()
-        {
-            _player2 = PlayerSelector(BoardMark.O);
-        }
-
-        private IPlayer PlayerSelector(BoardMark playerMark)
-        {
-            return new RandomPlayer(playerMark);
+            for (var i = 0; i < 10; i++)
+            {
+                Play();
+            }
         }
 
         public void Play()
         {
-            while (!_gameBoard.HasWinner() && !_gameBoard.IsFull())
+            _board.ClearBoard();
+            _board.PrintBoard();
+            var currentPlayer = GamePiece.X;
+            while (!_board.HasWinner() && !_board.IsCatGame())
             {
-                if (_currentPlayerPlayer1)
-                {
-                    _currentPlayer = _player1;
-                }
-                else
-                {
-                    _currentPlayer = _player2;
-                }
-
-                var move = _currentPlayer.DetermineMove(_gameBoard);
-
-                _gameBoard.MarkMove(_currentPlayer.GamePiece, move);
-
-                _currentPlayerPlayer1 = !_currentPlayerPlayer1;
-
-                _gameBoard.PrintBoard();
+                _board.PlayRandom(currentPlayer);
+                currentPlayer = GetNextPlayer(currentPlayer);
+                _board.PrintBoard();
+                Console.ReadKey();
             }
+
+            if (!_board.HasWinner() && _board.IsCatGame())
+            {
+                Console.WriteLine($"Cat Game Found.");
+                _board.PrintBoard();
+                Console.ReadKey();
+                return;
+            }
+            var winner = _board.GetWinner();
+
+            Console.WriteLine($"Winning piece is {winner}");
+            _board.PrintBoard();
+            Console.ReadKey();
+        }
+
+        private GamePiece GetNextPlayer(GamePiece currentPlayer)
+        {
+            return currentPlayer == GamePiece.X ? GamePiece.O : GamePiece.X;
         }
     }
 }
